@@ -2,7 +2,7 @@
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { usePathname } from "next/navigation";
-import Sidebar from "./components/InputBox/sideBar/Sidebar";
+import Sidebar from "./components/sideBar/Sidebar";
 import Header from "./components/header/Header";
 
 
