@@ -1,4 +1,4 @@
-import { baseUrl } from "./auth/getMe"
+import { baseUrl } from "./getMe"
 
 export const LogOut = async () => {
     const res = await fetch(`${baseUrl}/logout`, {

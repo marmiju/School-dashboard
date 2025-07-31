@@ -1,10 +1,10 @@
 'use client'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import vercel from '@/public/vercel.svg'
+import vercel from '@/public/vercel.jpg'
 import { redirect } from 'next/navigation'
 import { GetMe } from '@/lib/function/auth/getMe'
-import { LogOut } from '@/lib/function/LogOut'
+import { LogOut } from '@/lib/function/auth/LogOut'
 import { toast, ToastContainer } from 'react-toastify'
 
 type User = {
@@ -40,8 +40,11 @@ const Header = () => {
             <ToastContainer/>
             <div className='flex w-full max-w-[98%] mx-auto justify-between p-1 md:px-2 lg:px-4'>
                 <div className='flex gap-4 h-[80px]'>
-                    <Image className=' bg-black w-44 p-2 rounded hidden md:block' src={vercel} alt='logo' width={80} height={80} />
-                    <h3 className='text-xl md:text-2xl font-semibold'>Welcome back <br /><span className='text-sm '>{user?.username}</span></h3>
+                    <Image className=' bg-black   rounded hidden md:block' src={vercel} alt='logo' width={80} height={80} />
+                    <div>
+                        <h3 className='text-xl md:text-2xl font-semibold text-primary'>Welcome back</h3>
+                        <p className=''>{user?.username}</p>
+                    </div>
                 </div>
                 <button onClick={HandleLogOut} className='bg-primary/70 px-6 py-0 h-[40px] cursor-pointer font-semibold rounded-lg text-background'>Log Out</button>
             </div>

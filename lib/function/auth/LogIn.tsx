@@ -13,7 +13,6 @@ export const LogIn = async ({ data }: { data: { email: string; password: string 
     });
 
     console.log(res)
-    if (!res.ok) throw new Error('Login failed');
     return await res.json();
   } catch (err) {
         return err;
