@@ -16,8 +16,8 @@ export const LogIn = async ({ data }: { data: { email: string; password: string 
     if (!res.ok) throw new Error('Login failed');
     return await res.json();
   } catch (err) {
-    console.error('Login error:', err);
-    throw err;
+        return err;
+
   }
 };
 

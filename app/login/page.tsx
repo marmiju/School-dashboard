@@ -1,14 +1,16 @@
 'use client'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import InputBox from '../components/InputBox/InputBox'
 import { MdEmail, MdPassword } from 'react-icons/md'
 
 import { RiProgress5Line } from 'react-icons/ri'
 import Link from 'next/link'
-import { LogIn } from '@/lib/function/LogIn'
+import { LogIn } from '@/lib/function/auth/LogIn'
 import { redirect } from 'next/navigation'
+import { GetMe } from '@/lib/function/auth/getMe'
+import { toast, ToastContainer } from 'react-toastify'
 
-const page = () => {
+const LogInPage = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [data, setData] = useState({
         email: '',
@@ -31,14 +33,27 @@ const page = () => {
         setIsLoading(false)
         console.log(res)
         if (res.message === 'Logged in successfully') {
+            toast.success(res.message)
             redirect('/'); // or any page you want
         } else {
-            alert(res?.message || 'Login failed');
+            toast.error(res.message)
         }
     };
 
+    useEffect(() => {
+        const getMe = async () => {
+            const session = await GetMe()
+            if (session.user) {
+                redirect('/')
+            }
+        }
+        getMe()
+
+    }, [])
+
     return (
         <div className='max-w-6xl mx-auto p-4 min-h-screen flex justify-center items-center'>
+            <ToastContainer />
             <form onSubmit={handleSubmit} className='space-y-4 grid justify-center'>
                 <InputBox
                     name='email'
@@ -60,8 +75,8 @@ const page = () => {
                     type='password'
                     icon={<MdPassword />}
                 />
-                {isLoading ? <div className='w-full bg-secondary flex items-center justify-center p-2 text-xl rounded-xl text-primary/50'><RiProgress5Line /> wait...</div> 
-                : <button type='submit' className='w-full bg-primary p-2 rounded-xl text-background font-semibold cursor-pointer' >Submit</button>}
+                {isLoading ? <div className='w-full bg-secondary flex items-center justify-center p-2 text-xl rounded-xl text-primary/50'><RiProgress5Line /> wait...</div>
+                    : <button type='submit' className='w-full bg-primary p-2 rounded-xl text-background font-semibold cursor-pointer' >Submit</button>}
                 <p>You have no account, <Link href={'/register'} className='text-primary'>Create New</Link></p>
 
             </form>
@@ -70,4 +85,4 @@ const page = () => {
     )
 }
 
-export default page
+export default LogInPage
