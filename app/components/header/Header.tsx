@@ -6,14 +6,18 @@ import { redirect } from 'next/navigation'
 import { GetMe } from '@/lib/function/auth/getMe'
 import { LogOut } from '@/lib/function/auth/LogOut'
 import { toast, ToastContainer } from 'react-toastify'
+import Link from 'next/link'
+import { PiUserFill } from 'react-icons/pi'
+import { UserDetailsType,GetUserDetails } from '@/lib/function/users/getUSerById'
 
 type User = {
+    id:string,
     username: string
     
 }
-
 const Header = () => {
-    const [user, setUser] = useState<User | null>(null)
+    const [user, setUser] = useState<User |null>()
+    console.log(user)
     useEffect(() => {
         const getMe = async () => {
             const session = await GetMe()
@@ -22,9 +26,8 @@ const Header = () => {
                 redirect('/login')
             }
             console.log(session.user)
-            setUser(session.user)
-
-        }
+            setUser(session.user) 
+         }
         getMe()
     }, [])
     const HandleLogOut=async ()=>{
@@ -46,7 +49,7 @@ const Header = () => {
                         <p className=''>{user?.username}</p>
                     </div>
                 </div>
-                <button onClick={HandleLogOut} className='bg-primary/70 px-6 py-0 h-[40px] cursor-pointer font-semibold rounded-lg text-background'>Log Out</button>
+                <Link className='text-2xl flex items-center  justify-center' href={`/profile/${user?.id}`}><div className='border border-slate-200 rounded-2xl p-1 text-gray-600 shadow grid justify-center items-center'><PiUserFill/></div></Link>
             </div>
         </div>
     )

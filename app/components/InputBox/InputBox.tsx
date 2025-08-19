@@ -6,7 +6,7 @@ interface InputBoxProps {
     name:string
     value: string
     onChenge: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
     required?: boolean
 }
 
