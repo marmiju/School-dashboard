@@ -1,18 +1,29 @@
 'use client'
 import { UserType } from '@/lib/function/users/getUSerById'
-import React from 'react'
+import React, { useState } from 'react'
 import InputBox from '../InputBox/InputBox'
 
 
-const handleOnchenge = (e: React.ChangeEvent<HTMLInputElement>) => {
-  console.log(e.target.value);
-  // Handle input change logic here
-}
 
-const EditInfo = ({userData}:{userData: UserType}) => {
+
+const EditInfo = ({ userData }: { userData: UserType }) => {
+  const [userdata, setuserdata] = useState<UserType>(userData)
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setuserdata((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
-    <div>
-      <InputBox label='username' name='username' onChenge={handleOnchenge}  value={userData.username} placeholder='empty field' required type='text'/>
+    <div className='p-4 flex flex-wrap gap-2'>
+      <InputBox label='username' name='username' onChenge={handleOnChange} value={userdata.username} placeholder='empty field' required type='text' />
+      <InputBox label='username' name='username' onChenge={handleOnChange} value={userdata.username} placeholder='empty field' required type='text' />
+      <InputBox label='username' name='username' onChenge={handleOnChange} value={userdata.username} placeholder='empty field' required type='text' />
+      <InputBox label='username' name='username' onChenge={handleOnChange} value={userdata.username} placeholder='empty field' required type='text' />
     </div>
   )
 }

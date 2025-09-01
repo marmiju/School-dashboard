@@ -36,6 +36,7 @@ const LogInPage = () => {
             toast.success(res.message)
             redirect('/'); // or any page you want
         } else {
+            console.log(res)
             toast.error(res.message)
         }
     };
