@@ -1,24 +1,32 @@
-import EditInfo from '@/app/components/editInfo/EditInfo'
-import { GetUserDetails } from '@/lib/function/users/getUSerById'
-import React from 'react'
+"use client";
 
-interface PageProps {
-  params: { id: string }
-}
+import { useEffect, useState } from "react";
+import { GetMe } from "@/lib/function/auth/getMe";
+import { userWithDetails } from "@/lib/interface/UserWithdetails";
+import EditInfo from "@/app/components/editInfo/EditInfo";
+import { useRouter } from "next/navigation";
 
-const Page = async ({ params }: PageProps) => {
-  const id = params.id    
-  const UserDetails = await  GetUserDetails(Number(id))
-  console.log("UserDetails", UserDetails);
+const EditInfoWrapper = () => {
+  const [userData, setUserData] = useState<userWithDetails | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-  
-  // ...existing code...
-return (
-  
-    <EditInfo userData={UserDetails}/>
-  
-)
-// ...existing code...
-}
+  useEffect(() => {
+    const fetchUser = async () => {
+      const me = await GetMe();
+      if (!me) {
+        router.push("/login"); // যদি না পাওয়া যায় redirect
+        return;
+      }
+      setUserData(me);
+      setLoading(false);
+    };
+    fetchUser();
+  }, [router]);
 
-export default Page;
+  if (loading) return <p>Loading...</p>;
+
+  return <EditInfo userDataProps={userData!} />;
+};
+
+export default EditInfoWrapper;

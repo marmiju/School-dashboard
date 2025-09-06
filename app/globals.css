@@ -8,8 +8,8 @@
 }
 
 :root {
-  --background: #fdf4ff;
-  --primary: #5105ca;
+  --background: #f1f1f1;
+  --primary: #1f8b70;
   --text:#242424;
   --secondary:#ffffff;
 }
@@ -18,3 +18,7 @@ body {
   background: var(--background);
 
 }
+/* 
+*{
+  @apply border
+} */

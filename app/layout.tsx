@@ -1,5 +1,5 @@
 'use client'
-import { Montserrat } from "next/font/google";
+import { Hind_Siliguri, Montserrat } from "next/font/google";
 import "./globals.css";
 import { usePathname } from "next/navigation";
 import Sidebar from "./components/sideBar/Sidebar";
@@ -8,15 +8,13 @@ import { useState } from "react";
 
 
 
-const montserrat = Montserrat({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const montserrat = Hind_Siliguri({
+  weight: '400'
 });
 
 const logreg = ['/login','/register']
 export default function RootLayout({ children,}: Readonly<{children: React.ReactNode;}>) {
   const path = usePathname()
-  const [user,setUser] = useState()
   return (
     <html lang="en">
       <body

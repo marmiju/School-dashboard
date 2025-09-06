@@ -1,3 +1,5 @@
+import { userWithDetails } from "@/lib/interface/UserWithdetails";
+
 export const baseUrl = process.env.URL || 'http://localhost:5000/api';
 export const GetMe = async () => {
   try {
@@ -9,10 +11,12 @@ export const GetMe = async () => {
     });
 
     console.log(res)
-    if (!res.ok) throw new Error('Login failed');
-    return await res.json();
+    if (!res.ok) throw new Error('server error');
+    const result = await res.json();
+    return result.user as userWithDetails;
+
   } catch (err) {
     console.error(err)
-    return '!logged'
+    throw err;
   }
 };

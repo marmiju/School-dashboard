@@ -44,7 +44,7 @@ const LogInPage = () => {
     useEffect(() => {
         const getMe = async () => {
             const session = await GetMe()
-            if (session.user) {
+            if (session) {
                 redirect('/')
             }
         }

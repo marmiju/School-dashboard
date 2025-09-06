@@ -1,58 +1,75 @@
-'use client'
-import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
-import vercel from '@/public/vercel.jpg'
-import { redirect } from 'next/navigation'
-import { GetMe } from '@/lib/function/auth/getMe'
-import { LogOut } from '@/lib/function/auth/LogOut'
-import { toast, ToastContainer } from 'react-toastify'
-import Link from 'next/link'
-import { PiUserFill } from 'react-icons/pi'
-import { UserDetailsType,GetUserDetails } from '@/lib/function/users/getUSerById'
+"use client";
 
-type User = {
-    id:string,
-    username: string
-    
-}
+import Image from "next/image";
+import next from "@/public/next.svg";
+
+import { ToastContainer } from "react-toastify";
+import Link from "next/link";
+import { RiAccountCircle2Line } from "react-icons/ri";
+import { useEffect, useState } from "react";
+import { GetMe } from "@/lib/function/auth/getMe";
+import { userWithDetails } from "@/lib/interface/UserWithdetails";
+import { useRouter } from "next/navigation";
+
 const Header = () => {
-    const [user, setUser] = useState<User |null>()
-    console.log(user)
-    useEffect(() => {
-        const getMe = async () => {
-            const session = await GetMe()
-            console.log("session", session)
-            if (!session?.user) {
-                redirect('/login')
-            }
-            console.log(session.user)
-            setUser(session.user) 
-         }
-        getMe()
-    }, [])
-    const HandleLogOut=async ()=>{
-        const res = await LogOut()
-        if (res==='LogOut'){
-            redirect('/login')
-        }else{
-         toast.error(res)
-        }
-    }
-    return (
-        <div className='flex col-span-12 bg-secondary  '>
-            <ToastContainer/>
-            <div className='flex w-full max-w-[98%] mx-auto justify-between p-1 md:px-2 lg:px-4'>
-                <div className='flex gap-4 h-[80px]'>
-                    <Image className=' bg-black   rounded hidden md:block' src={vercel} alt='logo' width={80} height={80} />
-                    <div>
-                        <h3 className='text-xl md:text-2xl font-semibold text-primary'>Welcome back</h3>
-                        <p className=''>{user?.username}</p>
-                    </div>
-                </div>
-                <Link className='text-2xl flex items-center  justify-center' href={`/profile/${user?.id}`}><div className='border border-slate-200 rounded-2xl p-1 text-gray-600 shadow grid justify-center items-center'><PiUserFill/></div></Link>
-            </div>
-        </div>
-    )
-}
+  const [user, setUser] = useState<userWithDetails | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-export default Header
+  useEffect(() => {
+    const getMe = async () => {
+      try {
+        const session = await GetMe();
+        if (!session) {
+          router.push("/login"); // ✅ useRouter instead of redirect
+          return;
+        }
+        setUser(session);
+      } catch (err) {
+        console.error("GetMe failed:", err);
+        router.push("/login");
+      } finally {
+        setLoading(false);
+      }
+    };
+    getMe();
+  }, [router]);
+
+
+  return (
+    <div className="flex col-span-12 bg-secondary">
+      <ToastContainer />
+      <div className="flex w-full max-w-[98%] mx-auto justify-between p-1 md:px-2 lg:px-4">
+        <div className="flex gap-4 h-[80px]">
+          <Image
+            className="bg-black rounded hidden md:block"
+            src={next}
+            alt="logo"
+            width={80}
+            height={80}
+          />
+          <div className="grid items-center">
+            <h3 className="text-sm">
+              Welcome back <br />
+              <span className="text-2xl text-primary font-semibold">
+                {user?.username}
+              </span>
+            </h3>
+          </div>
+        </div>
+        {user && (
+          <Link
+            className="text-4xl flex items-center justify-center"
+            href={`/profile/${user.user_id}`}
+          >
+            <div className="rounded-2xl text-black grid justify-center items-center">
+              <RiAccountCircle2Line />
+            </div>
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Header;

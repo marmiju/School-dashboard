@@ -17,8 +17,8 @@ const Sidebar = () => {
   return (
     <div className='relative col-span-12  md:col-span-2'>
       <div>
-        <div className={`absolute inset-0 lg:static space-y-2 `}>
-          <button onClick={toglehandler} className={`text-4xl p-2 bg-secondary w-full md:w-full block lg:hidden`}>
+        <div className={`absolute inset-0 col-span-2 lg:static space-y-2 `}>
+          <button onClick={toglehandler} className={`text-4xl p-2 bg-secondary  w-full  block lg:hidden`}>
             {isOpen ? <MdOutlineClose />
               : <RiMenuUnfoldFill />}
           </button>
@@ -28,10 +28,9 @@ const Sidebar = () => {
               <RedirectLink key={nav.id} title={nav.title} link={nav.link} icon={nav.icon} />
 
             ))}
-
+            <LogOutButton/>
           </div>
         </div>
-            <LogOutButton/>
       </div>
     </div>
   )
