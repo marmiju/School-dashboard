@@ -1,9 +1,9 @@
 
-export const baseUrl = process.env.URL || 'http://localhost:5000/api';
+export const baseUrl = process.env.URL || 'http://localhost:5000';
 
 export const LogIn = async ({ data }: { data: { email: string; password: string } }) => {
   try {
-    const res = await fetch(`${baseUrl}/login`, {
+    const res = await fetch(`${baseUrl}/api/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

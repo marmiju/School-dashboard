@@ -15,7 +15,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className='relative col-span-12  md:col-span-2'>
+    <div className='relative col-span-12 md:col-span-2'>
       <div>
         <div className={`absolute inset-0 col-span-2 lg:static space-y-2 `}>
           <button onClick={toglehandler} className={`text-4xl p-2 bg-secondary  w-full  block lg:hidden`}>

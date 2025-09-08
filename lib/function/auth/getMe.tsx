@@ -1,9 +1,9 @@
 import { userWithDetails } from "@/lib/interface/UserWithdetails";
 
-export const baseUrl = process.env.URL || 'http://localhost:5000/api';
+export const baseUrl = process.env.URL || 'http://localhost:5000';
 export const GetMe = async () => {
   try {
-    const res = await fetch(`${baseUrl}/me`, {
+    const res = await fetch(`${baseUrl}/api/me`, {
       headers: {
         'Content-Type': 'application/json',
       },

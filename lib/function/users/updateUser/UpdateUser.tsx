@@ -1,5 +1,5 @@
 import { userWithDetails } from "@/lib/interface/UserWithdetails";
-import { json } from "stream/consumers";
+import { baseUrl } from "../../auth/getMe";
 
 export async function UpdateUser(formData: userWithDetails) {
   console.log("FormData to be sent:", formData);
@@ -26,14 +26,10 @@ export async function UpdateUser(formData: userWithDetails) {
       data.append("profile_image", formData.profile_image);
     }
 
-    const response = await fetch(`http://localhost:5000/api/user/details`, {
+    const response = await fetch(`${baseUrl}/api/user/details`, {
       method: "POST",
       credentials: "include",
-      body: JSON.stringify(Object.fromEntries(data)), // Convert FormData to JSON object
-      headers: {
-        // 'Content-Type': 'multipart/form-data', // Let browser set it including boundary
-        'Content-Type': 'application/json',
-      },
+      body: data, // Convert FormData to JSON object
     });
 
     const result = await response.json();
