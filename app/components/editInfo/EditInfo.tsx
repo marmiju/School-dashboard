@@ -9,7 +9,6 @@ import { MdOutlineUpdate } from 'react-icons/md'
 import { UpdateUser } from '@/lib/function/users/updateUser/UpdateUser'
 import { toast } from 'react-toastify'
 import { userWithDetails } from '@/lib/interface/UserWithdetails'
-import { baseUrl } from '@/lib/function/auth/getMe'
 
 
 const EditInfo = ({ userDataProps }: { userDataProps: userWithDetails }) => {
