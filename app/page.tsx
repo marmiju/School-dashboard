@@ -5,7 +5,6 @@ const page = () => {
       <div className=' w-44 h-44 rounded bg-secondary shadow p-2'>
         hello
       </div>
-     
     </div>
   )
 }

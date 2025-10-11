@@ -1,21 +1,21 @@
 
-export const baseUrl = process.env.URL || 'http://localhost:5000';
+export const baseUrl = process.env.URL || 'http://localhost:5000/api';
 
-export const LogIn = async ({ data }: { data: { email: string; password: string } }) => {
+export const LogIn = async (data:{email:string,password:string}) => {
   try {
-    const res = await fetch(`${baseUrl}/api/login`, {
-      method: 'POST',
+    const res = await fetch("http://localhost:5000/api/signIn", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      credentials: 'include', // if you're using cookies
       body: JSON.stringify(data),
     });
 
-    console.log(res)
-    return await res.json();
+    const result = await res.json()
+    return result;
+
   } catch (err) {
-        return err;
+    return err;
 
   }
 };

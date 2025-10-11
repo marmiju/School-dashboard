@@ -1,10 +1,9 @@
 'use client'
-import { Hind_Siliguri, Montserrat } from "next/font/google";
+import { Hind_Siliguri, } from "next/font/google";
 import "./globals.css";
 import { usePathname } from "next/navigation";
 import Sidebar from "./components/sideBar/Sidebar";
 import Header from "./components/header/Header";
-import { useState } from "react";
 
 
 

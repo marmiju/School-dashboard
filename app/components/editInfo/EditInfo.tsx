@@ -9,6 +9,7 @@ import { MdOutlineUpdate } from 'react-icons/md'
 import { UpdateUser } from '@/lib/function/users/updateUser/UpdateUser'
 import { toast } from 'react-toastify'
 import { userWithDetails } from '@/lib/interface/UserWithdetails'
+import { baseUrl } from '@/lib/function/auth/getMe'
 
 
 const EditInfo = ({ userDataProps }: { userDataProps: userWithDetails }) => {
@@ -28,8 +29,8 @@ const EditInfo = ({ userDataProps }: { userDataProps: userWithDetails }) => {
   const handleImageChange = (file: File | null) => {
     if (file) {
       const fileURL = URL.createObjectURL(file);
-      setPreview(fileURL);
-
+      setPreview("pre"+fileURL);
+      console.log(typeof(fileURL), fileURL);
       setUserdata((prev) => ({
         ...prev,
         profile_image: file
@@ -73,11 +74,9 @@ const EditInfo = ({ userDataProps }: { userDataProps: userWithDetails }) => {
             className="w-full h-64 object-cover rounded-2xl p-2 border border-gray-300"
             src={
               preview
-                ? typeof preview === 'string'
-                  ? preview.startsWith('http') || preview.startsWith('/')
-                    ? preview // server path or absolute URL
-                    : `${process.env.URL || 'http://localhost:5000'}/${preview}` 
-                  : preview 
+                ? preview.startsWith("pre")
+                 ? preview.slice(3)
+                 : `${baseUrl}/` + preview
                 : avatar 
             }
             alt="profile photo"

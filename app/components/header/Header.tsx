@@ -16,24 +16,6 @@ const Header = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    const getMe = async () => {
-      try {
-        const session = await GetMe();
-        if (!session) {
-          router.push("/login"); // ✅ useRouter instead of redirect
-          return;
-        }
-        setUser(session);
-      } catch (err) {
-        console.error("GetMe failed:", err);
-        router.push("/login");
-      } finally {
-        setLoading(false);
-      }
-    };
-    getMe();
-  }, [router]);
 
 
   return (
@@ -49,10 +31,10 @@ const Header = () => {
             height={80}
           />
           <div className="grid items-center">
-            <h3 className="text-sm">
+            <h3 className="text-sm text-gray-600">
               Welcome back <br />
               <span className="text-2xl text-primary font-semibold">
-                {user?.username}
+               MAR miju
               </span>
             </h3>
           </div>

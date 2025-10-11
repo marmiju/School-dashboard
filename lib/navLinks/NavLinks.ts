@@ -14,7 +14,5 @@ export interface Navlink {
 
 export const NavLinks: Navlink[] = [
     { id: 1, title: 'DashBoard', link: '/', icon: MdDashboard  },
-    { id: 2, title: 'Students', link: '/students', icon: PiStudentFill  },
-    { id: 3, title: 'Teachers', link: '/teachers', icon:FaChalkboardTeacher   },
-    { id: 4, title: 'Notice', link: '/notice', icon: RiNotification4Fill   },
+    { id: 2, title: 'Users', link: '/users', icon: PiStudentFill },
 ];

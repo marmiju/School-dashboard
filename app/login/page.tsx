@@ -29,16 +29,10 @@ const LogInPage = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
-        const res = await LogIn({ data })
+        const res = await LogIn(data);
         setIsLoading(false)
         console.log(res)
-        if (res.message === 'Logged in successfully') {
-            toast.success(res.message)
-            redirect('/'); // or any page you want
-        } else {
-            console.log(res)
-            toast.error(res.message)
-        }
+        res.success ? (toast.success(res.message), redirect('/')) : toast.error(res.message)
     };
 
     useEffect(() => {
@@ -78,7 +72,7 @@ const LogInPage = () => {
                 />
                 {isLoading ? <div className='w-full bg-secondary flex items-center justify-center p-2 text-xl rounded-xl text-primary/50'><RiProgress5Line /> wait...</div>
                     : <button type='submit' className='w-full bg-primary p-2 rounded-xl text-background font-semibold cursor-pointer' >Submit</button>}
-                <p>You have no account, <Link href={'/register'} className='text-primary'>Create New</Link></p>
+               
 
             </form>
 
