@@ -1,10 +1,10 @@
 
-import { Button } from '../btn/Button/Button'
 import { GrView } from 'react-icons/gr'
 import { FaEdit } from 'react-icons/fa'
 import { IoTrashBin } from 'react-icons/io5'
 import { UserInterface } from '@/lib/interface/UserWithdetails'
 import { Suspense } from 'react'
+import Image from 'next/image'
 
 interface props {
     users: UserInterface[]
@@ -13,27 +13,33 @@ interface props {
 const UserLiist = ({ users }: props) => {
 
     return (
-        <Suspense fallback={<div>Wait Jsut A Time...</div>}> 
-            <div className='overflow-auto'>
-                <table className="w-full  border-collapse border border-red-500">
-                    <thead className="border">
-                        <tr className="bg-primary text-white border border-red-500">
-
-                            <th className="p-2 border border-gray-300 truncate sm:whitespace-normal">Name</th>
-                            <th className="p-2 border border-gray-300 truncate sm:whitespace-normal">Email</th>
-                            <th className="p-2 border border-gray-300">Action</th>
+        <Suspense fallback={<div>Wait Jsut A Time...</div>}>
+            <div className='overflow-scroll'>
+                <table className="w-full  ">
+                    <thead className="">
+                        <tr className="bg-primary text-white">
+                            <th className="p-2  truncate sm:whitespace-normal">Image</th>
+                            <th className="p-2  truncate sm:whitespace-normal">Name</th>
+                            <th className="p-2  truncate sm:whitespace-normal">Email</th>
+                            <th className="p-2  truncate sm:whitespace-normal">Phone</th>
+                            
+                            <th className="p-2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {users.map((user, index) => (
-                            <tr key={user.id} className="text-center hover:bg-secondary/20 transition-all duration-300">
-
-                                <td className="p-2 border truncate sm:whitespace-normal">{user.name}</td>
-                                <td className="p-2 border overflow-ellipsis truncate sm:whitespace-normal">{user.email}</td>
-                                <td className="flex justify-center p-2 border border-gray-300">
-                                    <Button text="" icon={<GrView />} custom_css="m-2 bg-green-600 text-sm hover:bg-green-400" />
-                                    <Button text="" icon={<FaEdit />} custom_css="m-2" />
-                                    <Button text="" icon={<IoTrashBin />} custom_css="m-2 bg-red-600 hover:bg-red-400" />
+                            <tr key={user.id} className="text-center bg-secondary border border-gray-300  transition-all duration-300">
+                                <tr className='w-16 h-16 m-auto'>
+                                    <Image className='w-16 h-16 m-auto  object-cover' src={user.profile_picture ? user.profile_picture : 'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png'} alt={user.name} width={50} height={50} />
+                                </tr>
+                                <td className="p-2  truncate sm:whitespace-normal">{user.name}</td>
+                                <td className="p-2  overflow-ellipsis truncate sm:whitespace-normal">{user.email}</td>
+                                <td className="p-2  overflow-ellipsis truncate sm:whitespace-normal">{user.phone}</td>
+                                <td className="gap-2 space-x-4">
+                                    <button className='cursor-pointer text-blue-500' ><GrView/></button>
+                                    <button className='cursor-pointer text-yellow-600'><FaEdit/></button>
+                                    <button className='cursor-pointer text-red-500' ><IoTrashBin/></button>
+                                    
                                 </td>
                             </tr>
                         ))}

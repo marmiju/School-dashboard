@@ -4,15 +4,15 @@ import UserLiist from "../components/userList/UserLiist"
 import { Button } from "../components/btn/Button/Button"
 import { CgAdd } from "react-icons/cg"
 import Pagegnation from "../components/pagegnation/pagegnation"
+import Link from "next/link"
 
 const page = async () => {
-    const Users = await getUsers()
+    const Users = await getUsers(2)
     
 
   return (
 
     <div className='p-2 '>
-       
             {/* userBar  */}
             <div className="p-4 border-b">
                 <h1 className="text-2xl font-bold">Users</h1>
@@ -22,7 +22,9 @@ const page = async () => {
             {/* add new User */}
             <div className="flex  justify-between items-center p-4 border-b">
                 <p className=" text-sm lg:text-2xl">totsal user: {Users.length}</p>
-                <Button text="Add New User" icon={<CgAdd/>} custom_css="my-4"/>
+                <Link href={'/users/addnew'}>
+                <Button text="Add New User"  icon={<CgAdd/>} custom_css="my-4"/>
+                </Link>
             </div>
 
 

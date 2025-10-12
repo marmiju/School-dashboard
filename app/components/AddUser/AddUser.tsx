@@ -6,16 +6,46 @@ import Image from 'next/image'
 import { ImageInput } from '../fileInput/ImageInput'
 import { Button } from '../btn/Button/Button'
 import { MdOutlineUpdate } from 'react-icons/md'
-import { UpdateUser } from '@/lib/function/users/updateUser/UpdateUser'
-import { toast } from 'react-toastify'
-import { userWithDetails } from '@/lib/interface/UserWithdetails'
 import { baseUrl } from '@/lib/function/auth/getMe'
+import HandleRole from '../handleRole/HandleRole'
+
+interface userType {
+  name: string,
+  email: string,
+  password: string,
+  phone: string,
+  religion: string,
+  address: string,
+  birthDate: string | null,
+  bloodgrp: string,
+  education: string,
+  joinDate: string | null,
+  roleId: number,
+  designation: string,
+  profile_picture: string,
+}
 
 
-const EditInfo = ({ userDataProps }: { userDataProps: userWithDetails }) => {
-  const [userdata, setUserdata] = useState<userWithDetails>(userDataProps)
+
+const AddUser = () => {
+
+  const [userdata, setUserdata] = useState<userType>({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+    religion: "",
+    address: "",
+    birthDate: null,
+    bloodgrp: "",
+    education: "",
+    joinDate: null,
+    roleId: 0,
+    designation: "",
+    profile_picture: "",
+  })
   const [isLoading, setisloading] = useState<boolean>(false)
-  const [preview, setPreview] = useState<string | null>(userdata.profile_image ? typeof userdata.profile_image === 'string' ? userdata.profile_image : URL.createObjectURL(userdata.profile_image) : null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   // Handle text field change
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,40 +59,35 @@ const EditInfo = ({ userDataProps }: { userDataProps: userWithDetails }) => {
   const handleImageChange = (file: File | null) => {
     if (file) {
       const fileURL = URL.createObjectURL(file);
-      setPreview("pre"+fileURL);
-      console.log(typeof(fileURL), fileURL);
+      setPreview("pre" + fileURL);
+      console.log(typeof (fileURL), fileURL);
       setUserdata((prev) => ({
         ...prev,
         profile_image: file
       }))
-
     }
   };
 
+  // handle Role Change
+  const handleRole = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setUserdata((prev) => ({
+      ...prev,
+      roleId: parseInt(value)
+    }))
 
-  // Update data function (to be implemented)
-  const updateData = async () => {
-    setisloading(true)
-    // Simulate an API call
-    const res = await UpdateUser(userdata);
-    console.log("Update response:", res);
-    setTimeout(() => {
-      setisloading(false)
-    }, 300);
-    setisloading(false)
-    if (res.success === false) {
-      return toast.error("Failed to update data. Please try again.");
-    }
-    toast.success("Data updated successfully!");
+  };
 
-  }
+
+
+
+
 
   return (
     <div className="p-4 flex flex-wrap gap-2">
       {/* update section */}
       <div className='flex justify-between items-center w-full '>
-        <h3>Update Data:{userdata.user_id}</h3>
-        <Button text={isLoading ? "Updating..." : "Update now"} icon={<MdOutlineUpdate />} onClick={isLoading ? () => { } : updateData} custom_css={isLoading ? 'bg-gray-400 cursor-not-allowed' : ''} />
+        <Button text={isLoading ? "not to submit" : "Submit Now"} icon={<MdOutlineUpdate />} onClick={isLoading ? () => { } : () => { }} custom_css={isLoading ? 'bg-gray-400 cursor-not-allowed' : ''} />
       </div>
 
 
@@ -75,9 +100,9 @@ const EditInfo = ({ userDataProps }: { userDataProps: userWithDetails }) => {
             src={
               preview
                 ? preview.startsWith("pre")
-                 ? preview.slice(3)
-                 : `${baseUrl}/` + preview
-                : avatar 
+                  ? preview.slice(3)
+                  : `${baseUrl}/` + preview
+                : avatar
             }
             alt="profile photo"
             width={300}
@@ -91,9 +116,9 @@ const EditInfo = ({ userDataProps }: { userDataProps: userWithDetails }) => {
         <div className="w-full md:w-[68%] space-y-2">
           <InputBox
             label="নামঃ "
-            name="username"
+            name="name"
             onChenge={handleOnChange}
-            value={userdata.username}
+            value={userdata.name}
             placeholder="N/A"
             type="text"
           />
@@ -107,6 +132,15 @@ const EditInfo = ({ userDataProps }: { userDataProps: userWithDetails }) => {
               type="email"
             />
             <InputBox
+              label="পাসওয়ার্ডঃ"
+              name="password"
+              onChenge={handleOnChange}
+              value={userdata.password}
+              placeholder="N/A"
+              type="password"
+            >
+            </InputBox>
+            <InputBox
               label="ফোনঃ "
               name="phone"
               onChenge={handleOnChange}
@@ -117,9 +151,8 @@ const EditInfo = ({ userDataProps }: { userDataProps: userWithDetails }) => {
           </div>
 
           <div className='grid grid-cols-3 gap-2'>
-            <InputBox label='ক্লাসঃ' name='class_name' onChenge={handleOnChange} value={userdata.class_name!} placeholder='N/A' type='text' />
-            <InputBox label='ক্লাস রোলঃ ' name='class_role' onChenge={handleOnChange} value={userdata.class_role!} placeholder='N/A' type='text' />
             <InputBox label='ধর্মঃ' name='religion' onChenge={handleOnChange} value={userdata.religion!} placeholder='N/A' type='text' />
+            <InputBox label='ঠিকানাঃ ' name='class_name' onChenge={handleOnChange} value={userdata.education!} placeholder='N/A' type='text' />
 
           </div>
         </div>
@@ -128,27 +161,26 @@ const EditInfo = ({ userDataProps }: { userDataProps: userWithDetails }) => {
       {/* secondary options */}
       <div className='bg-secondary w-full p-4 rounded-xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 '>
         <InputBox
-          label="ঠিকানাঃ"
-          name="address"
-          onChenge={handleOnChange}
-          value={userdata.address || ""}
-          placeholder="N/A"
-        />
-
-        <InputBox
           label="জন্ম তারিখঃ "
-          name="birth_date"
+          name="birthDate"
           onChenge={handleOnChange}
-          value={userdata.birth_date ? new Date(userdata.birth_date).toISOString().split("T")[0] : ""}
+          value={userdata.birthDate ? new Date(userdata.birthDate).toISOString().split("T")[0] : ""}
           type="date"
           placeholder="N/A"
         />
-
+        <HandleRole value={userdata.roleId} handlechenge={handleRole} />
         <InputBox
           label="রক্তের গ্রুপঃ"
           name="blood_group"
           onChenge={handleOnChange}
-          value={userdata.blood_group || ""}
+          value={userdata.bloodgrp || ""}
+          placeholder="N/A"
+        />
+        <InputBox
+          label="শিক্ষাগত যোগ্যতা"
+          name="address"
+          onChenge={handleOnChange}
+          value={userdata.address || ""}
           placeholder="N/A"
         />
 
@@ -159,28 +191,26 @@ const EditInfo = ({ userDataProps }: { userDataProps: userWithDetails }) => {
           value={userdata.education || ""}
           placeholder="N/A"
         />
-
-        <InputBox
-          label="ভূমিকা"
-          name="role"
-          onChenge={handleOnChange}
-          value={userdata.role || ""}
-          placeholder="N/A"
-        />
-
         <InputBox
           label="যোগদানের তারিখঃ"
-          name="join_date"
+          name="joinDate"
           onChenge={handleOnChange}
-          value={userdata.join_date ? new Date(userdata.join_date).toISOString().split("T")[0] : ""}
+          value={userdata.joinDate ? new Date(userdata.joinDate).toISOString().split("T")[0] : ""}
           type="date"
           placeholder="N/A"
         />
 
+        <InputBox
+          label="পদবী"
+          name="designation"
+          onChenge={handleOnChange}
+          value={userdata.designation || ""}
+          placeholder="N/A"
+        />
 
       </div>
     </div>
   )
 }
 
-export default EditInfo
+export default AddUser

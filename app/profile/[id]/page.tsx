@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { GetMe } from "@/lib/function/auth/getMe";
 import { userWithDetails } from "@/lib/interface/UserWithdetails";
-import EditInfo from "@/app/components/editInfo/EditInfo";
+import EditInfo from "@/app/components/UpdateInput/UpdateInput";
 import { useRouter } from "next/navigation";
 
 const EditInfoWrapper = () => {

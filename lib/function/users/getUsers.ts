@@ -1,9 +1,16 @@
 import { UserInterface } from "@/lib/interface/UserWithdetails";
 import { baseUrl } from "../auth/getMe"
 
-export const getUsers = async () => {
+export const getUsers = async (id?:number) => {
+    let url: string;
+    if (id) {
+        url =` ${baseUrl}/getUsers?page=${id}`;
+    } else {
+        url =` ${baseUrl}/getUsers`;
+    }
 
-    const res = await fetch(`${baseUrl}/getUsers`, {
+
+    const res = await fetch(url, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

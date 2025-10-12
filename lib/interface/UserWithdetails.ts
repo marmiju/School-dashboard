@@ -13,9 +13,8 @@ export interface UserInterface {
   roleId: number;
   role: string;
   designation: string;
-  isActive: number;
   profile_picture: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
