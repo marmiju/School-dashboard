@@ -2,15 +2,18 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import InputBox from '../components/InputBox/InputBox'
 import { MdEmail, MdPassword } from 'react-icons/md'
-
 import { RiProgress5Line } from 'react-icons/ri'
-import Link from 'next/link'
 import { LogIn } from '@/lib/function/auth/LogIn'
 import { redirect } from 'next/navigation'
-import { GetMe } from '@/lib/function/auth/getMe'
 import { toast, ToastContainer } from 'react-toastify'
 
 const LogInPage = () => {
+
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    if(token) {
+        redirect('/');
+    }
+
     const [isLoading, setIsLoading] = useState(false)
     const [data, setData] = useState({
         email: '',
@@ -32,19 +35,24 @@ const LogInPage = () => {
         const res = await LogIn(data);
         setIsLoading(false)
         console.log(res)
-        res.success ? (toast.success(res.message), redirect('/')) : toast.error(res.message)
+        res.success ? (
+            toast.success(res.message),
+            localStorage.setItem('token', res.token!),
+            redirect('/')
+        ) :
+         toast.error(res.message)
     };
 
-    useEffect(() => {
-        const getMe = async () => {
-            const session = await GetMe()
-            if (session) {
-                redirect('/')
-            }
-        }
-        getMe()
+    // useEffect(() => {
+    //     const getMe = async () => {
+    //         const session = await GetMe()
+    //         if (session) {
+    //             redirect('/')
+    //         }
+    //     }
+    //     getMe()
 
-    }, [])
+    // }, [])
 
     return (
         <div className='max-w-6xl mx-auto p-4 min-h-screen flex justify-center items-center'>

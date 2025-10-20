@@ -8,10 +8,10 @@
 }
 
 :root {
-  --background: #f1f1f1;
-  --primary: #1f8b70;
-  --text:#242424;
-  --secondary:#ffffff;
+  --background: #0a0a0a;
+  --primary: #e0fffa;
+  --text:#e2e2e2;
+  --secondary:#292929;
 }
 
 body {

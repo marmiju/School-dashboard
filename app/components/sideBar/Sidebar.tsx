@@ -16,19 +16,19 @@ const Sidebar = () => {
 
   return (
     <div className='relative col-span-12 md:col-span-2'>
-      <div>
+      <div className='border border-white'>
         <div className={`absolute inset-0 col-span-2 lg:static space-y-2 `}>
           <button onClick={toglehandler} className={`text-4xl p-2 bg-secondary  w-full  block lg:hidden`}>
             {isOpen ? <MdOutlineClose />
               : <RiMenuUnfoldFill />}
           </button>
-          <div className={`bg-secondary min-h-[calc(100svh-110px)] static col-span-12 lg:block ${isOpen ? 'block' : 'hidden'}`}>
+          <div className={`bg-secondary min-h-[calc(100svh-100px)] static col-span-12 lg:block ${isOpen ? 'block' : 'hidden'}`}>
             <p className='border-b p-4 font-semibold bg-primary/30 text-text'>Menu</p>
             {navLink.map((nav) => (
               <RedirectLink key={nav.id} title={nav.title} link={nav.link} icon={nav.icon} />
 
             ))}
-            <LogOutButton/>
+
           </div>
         </div>
       </div>

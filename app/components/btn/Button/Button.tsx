@@ -12,8 +12,8 @@ export const Button = ({ text = 'click here', icon,  onClick , custom_css}: butt
     return (
         <div>
             <button onClick={onClick} className={cn(`
-            p-2 bg-primary text-white
-             rounded font-medium flex  items-center gap-2 hover:bg-gray-400 cursor-pointer 
+            px-4 py-0.5 bg-secondary  text-text
+             rounded font-medium flex  items-center gap-2 hover:bg-text hover:text-secondary cursor-pointer 
              transition-all duration-300
              `,custom_css )}>{icon} {text} </button>
         </div>

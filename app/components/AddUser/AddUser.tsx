@@ -4,12 +4,12 @@ import InputBox from '../InputBox/InputBox'
 import avatar from '@/public/avatar.png'
 import Image from 'next/image'
 import { ImageInput } from '../fileInput/ImageInput'
-import { Button } from '../btn/Button/Button'
-import { MdOutlineUpdate } from 'react-icons/md'
 import { baseUrl } from '@/lib/function/auth/getMe'
 import HandleRole from '../handleRole/HandleRole'
+import { toast } from 'react-toastify'
+import { CreateUser } from '@/lib/function/users/Createuser'
 
-interface userType {
+export interface userType {
   name: string,
   email: string,
   password: string,
@@ -22,13 +22,12 @@ interface userType {
   joinDate: string | null,
   roleId: number,
   designation: string,
-  profile_picture: string,
+  // can be a File when user selects a new image, or a string URL for existing image
+  profile_picture?: File | string | null,
 }
 
-
-
 const AddUser = () => {
-
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
   const [userdata, setUserdata] = useState<userType>({
     name: "",
     email: "",
@@ -54,6 +53,7 @@ const AddUser = () => {
       ...prevData,
       [name]: value,
     }))
+   
   }
 
   const handleImageChange = (file: File | null) => {
@@ -63,7 +63,7 @@ const AddUser = () => {
       console.log(typeof (fileURL), fileURL);
       setUserdata((prev) => ({
         ...prev,
-        profile_image: file
+        profile_picture: file
       }))
     }
   };
@@ -79,24 +79,56 @@ const AddUser = () => {
   };
 
 
+const SubmitData = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  try {
+    setisloading(true);
+
+    if (userdata.roleId < 1) {
+      toast.info("select Role");
+      return;
+    }
+
+    const res = await CreateUser(userdata,token!);
+    if (res.success) {
+      toast.success("User created successfully!");
+    } else {
+      toast.error(res.message);
+    }
+
+  } catch (err) {
+    console.error(err);
+    toast.error("Something went wrong.");
+  } finally {
+    setisloading(false);
+  }
+};
+
+
+
 
 
 
 
   return (
-    <div className="p-4 flex flex-wrap gap-2">
+    <form onSubmit={SubmitData} className="p-4 flex flex-wrap gap-2">
       {/* update section */}
-      <div className='flex justify-between items-center w-full '>
-        <Button text={isLoading ? "not to submit" : "Submit Now"} icon={<MdOutlineUpdate />} onClick={isLoading ? () => { } : () => { }} custom_css={isLoading ? 'bg-gray-400 cursor-not-allowed' : ''} />
+      <div className='flex justify-end   w-full '>
+        <button
+         type='submit'
+         disabled = {isLoading}
+         className='text-background bg-primary px-4 py-0.5 rounded-2xl hover:text-background hover:bg-text duration-300 cursor-pointer'
+        > Add New</button>
       </div>
 
 
       {/* Primary Info */}
-      <div className="w-full flex flex-wrap gap-2 bg-white p-2 rounded-2xl">
+      <div className="w-full bg-secondary flex flex-wrap gap-2 p-2 rounded-2xl">
         {/* Avatar */}
         <div className="w-[100%] md:w-[30%] space-y-2">
           <Image
-            className="w-full h-64 object-cover rounded-2xl p-2 border border-gray-300"
+            className="w-full h-64 object-cover rounded-2xl p-2 border border-secondary text-text"
             src={
               preview
                 ? preview.startsWith("pre")
@@ -108,7 +140,6 @@ const AddUser = () => {
             width={300}
             height={300}
           />
-
           <ImageInput handleChange={handleImageChange} />
         </div>
 
@@ -120,6 +151,7 @@ const AddUser = () => {
             onChenge={handleOnChange}
             value={userdata.name}
             placeholder="N/A"
+            required
             type="text"
           />
           <div className="grid md:flex space-x-1.5 w-full">
@@ -130,6 +162,7 @@ const AddUser = () => {
               value={userdata.email}
               placeholder="N/A"
               type="email"
+              required
             />
             <InputBox
               label="পাসওয়ার্ডঃ"
@@ -138,6 +171,7 @@ const AddUser = () => {
               value={userdata.password}
               placeholder="N/A"
               type="password"
+              required
             >
             </InputBox>
             <InputBox
@@ -147,12 +181,13 @@ const AddUser = () => {
               value={userdata.phone!}
               placeholder="N/A"
               type="number"
+              required
             />
           </div>
 
           <div className='grid grid-cols-3 gap-2'>
             <InputBox label='ধর্মঃ' name='religion' onChenge={handleOnChange} value={userdata.religion!} placeholder='N/A' type='text' />
-            <InputBox label='ঠিকানাঃ ' name='class_name' onChenge={handleOnChange} value={userdata.education!} placeholder='N/A' type='text' />
+            <InputBox label='ঠিকানাঃ ' name='address' onChenge={handleOnChange} value={userdata.address!} placeholder='N/A' type='text' />
 
           </div>
         </div>
@@ -168,10 +203,10 @@ const AddUser = () => {
           type="date"
           placeholder="N/A"
         />
-        <HandleRole value={userdata.roleId} handlechenge={handleRole} />
+        <HandleRole  value={userdata.roleId!} handlechenge={handleRole} />
         <InputBox
           label="রক্তের গ্রুপঃ"
-          name="blood_group"
+          name="bloodgrp"
           onChenge={handleOnChange}
           value={userdata.bloodgrp || ""}
           placeholder="N/A"
@@ -207,9 +242,8 @@ const AddUser = () => {
           value={userdata.designation || ""}
           placeholder="N/A"
         />
-
       </div>
-    </div>
+    </form>
   )
 }
 

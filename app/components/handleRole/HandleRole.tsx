@@ -40,18 +40,19 @@ const HandleRole: React.FC<HandleRoleProps> = ({ handlechenge, value }) => {
 
   return (
     <div>
-      <h3>Roles</h3>
+      <h3 className="text-sm text-text">এক্সেসঃ</h3>
       <select
+      required
         value={value.toString()} // ✅ ensure consistent type
         onChange={handlechenge}
-        className="w-full p-2 border-gray-400 border rounded"
+        className="w-full p-2 border-text/30 border  rounded-full text-text"
       >
-        <option value="0" disabled>
+        <option className="text-text/30 bg-secondary" value="0" disabled>
           Select Role
         </option>
         {roles &&
           roles.map((role) => (
-            <option key={role.id} value={role.id.toString()}>
+            <option className="text-text/30 bg-secondary" key={role.id} value={role.id.toString()}>
               {role.name}
             </option>
           ))}
