@@ -213,19 +213,13 @@ const SubmitData = async (e: React.FormEvent<HTMLFormElement>) => {
         />
         <InputBox
           label="শিক্ষাগত যোগ্যতা"
-          name="address"
-          onChenge={handleOnChange}
-          value={userdata.address || ""}
-          placeholder="N/A"
-        />
-
-        <InputBox
-          label="শিক্ষাগত যোগ্যতা"
           name="education"
           onChenge={handleOnChange}
           value={userdata.education || ""}
           placeholder="N/A"
         />
+
+       
         <InputBox
           label="যোগদানের তারিখঃ"
           name="joinDate"

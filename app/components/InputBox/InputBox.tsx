@@ -16,7 +16,7 @@ const InputBox = ({ label, type = 'text', placeholder = 'enter value', required=
             <label className='text-text' htmlFor={useId()}>
                 {label}
             </label>
-            <div className='flex relative  items-center   bg-transparent  '>
+            <div className='flex relative  items-center   bg-transparent '>
                 <input
                     type={type}
                     placeholder={placeholder}

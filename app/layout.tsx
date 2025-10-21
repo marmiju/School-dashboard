@@ -7,7 +7,7 @@ import Header from "./components/header/Header";
 
 
 
-const montserrat = Tiro_Bangla({
+const montserrat = Hind_Siliguri({
   weight: '400'
 });
 

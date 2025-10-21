@@ -4,7 +4,6 @@ import { MdOutlineClose } from 'react-icons/md'
 import { RiMenuUnfoldFill } from 'react-icons/ri'
 import RedirectLink from '../link/RedirectLink'
 import { NavLinks } from '@/lib/navLinks/NavLinks'
-import LogOutButton from '../btn/LogOutButton'
 
 const Sidebar = () => {
   const [isOpen, setOpen] = useState(false)
@@ -16,7 +15,7 @@ const Sidebar = () => {
 
   return (
     <div className='relative col-span-12 md:col-span-2'>
-      <div className='border border-white'>
+      <div className=''>
         <div className={`absolute inset-0 col-span-2 lg:static space-y-2 `}>
           <button onClick={toglehandler} className={`text-4xl p-2 bg-secondary  w-full  block lg:hidden`}>
             {isOpen ? <MdOutlineClose />
