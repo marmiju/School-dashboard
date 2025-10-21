@@ -4,7 +4,6 @@ import InputBox from '../InputBox/InputBox'
 import avatar from '@/public/avatar.png'
 import Image from 'next/image'
 import { ImageInput } from '../fileInput/ImageInput'
-import { baseUrl } from '@/lib/function/auth/getMe'
 import HandleRole from '../handleRole/HandleRole'
 import { toast } from 'react-toastify'
 import { CreateUser } from '@/lib/function/users/Createuser'
@@ -44,7 +43,7 @@ const AddUser = () => {
     profile_picture: "",
   })
   const [isLoading, setisloading] = useState<boolean>(false)
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string |null>(null);
 
   // Handle text field change
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,8 +58,8 @@ const AddUser = () => {
   const handleImageChange = (file: File | null) => {
     if (file) {
       const fileURL = URL.createObjectURL(file);
-      setPreview("pre" + fileURL);
-      console.log(typeof (fileURL), fileURL);
+      setPreview(fileURL);
+     
       setUserdata((prev) => ({
         ...prev,
         profile_picture: file
@@ -118,8 +117,9 @@ const SubmitData = async (e: React.FormEvent<HTMLFormElement>) => {
         <button
          type='submit'
          disabled = {isLoading}
-         className='text-background bg-primary px-4 py-0.5 rounded-2xl hover:text-background hover:bg-text duration-300 cursor-pointer'
-        > Add New</button>
+         className={`text-background bg-primary px-4 py-0.5 rounded-2xl hover:text-background hover:bg-text duration-300 cursor-pointer
+          ${isLoading ? 'opacity-50 cursor-wait' : ''}`}
+        > {isLoading ? 'Adding User' : 'Add User'}</button>
       </div>
 
 
@@ -130,11 +130,7 @@ const SubmitData = async (e: React.FormEvent<HTMLFormElement>) => {
           <Image
             className="w-full h-64 object-cover rounded-2xl p-2 border border-secondary text-text"
             src={
-              preview
-                ? preview.startsWith("pre")
-                  ? preview.slice(3)
-                  : `${baseUrl}/` + preview
-                : avatar
+              preview ? preview : avatar
             }
             alt="profile photo"
             width={300}

@@ -28,8 +28,8 @@ const UserLiist = ({ users }: props) => {
     return (
         <Suspense fallback={<div>Wait Jsut A Time...</div>}>
             {isOpen && <UserViewModal onchenge={handleView} user={user} />}
-            <div className='overflow-auto'>
-                <table className="w-full  ">
+            <div className='overflow-auto max-h-[522px] '>
+                <table className="w-full  border-collapse  space-y-2">
                     <thead className="">
                         <tr className="bg-secondary font-semibold text-sm text-primary">
                             <th className="  ">serial</th>
