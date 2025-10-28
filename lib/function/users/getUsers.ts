@@ -1,5 +1,5 @@
 import { UserInterface } from "@/lib/interface/UserWithdetails";
-import { baseUrl } from "../auth/getMe"
+export const baseUrl = process.env.NEXT_PUBLIC_URL
 
 export const getUsers = async (id?:number) => {
     let url: string;

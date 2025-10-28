@@ -1,7 +1,13 @@
 "use client";
 
-import { baseUrl } from "@/lib/function/auth/getMe";
+
+
+import { baseUrl } from "@/lib/function/users/getUsers";
 import React, { useEffect, useState } from "react";
+
+
+
+
 
 interface HandleRoleProps {
   handlechenge: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -13,12 +19,15 @@ const HandleRole: React.FC<HandleRoleProps> = ({ handlechenge, value }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+
   useEffect(() => {
     let mounted = true;
     const getRoles = async () => {
       try {
-        const res = await fetch(`${baseUrl}/api/roles`);
-        if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/roles`);
+        console.log("mang",res)
+        alert(res)
+        if (!res.ok) throw new Error(`Fetch failed: ${JSON.stringify(res)}`);
         const data = await res.json();
 
         if (mounted) setRoles(data.data);
@@ -35,8 +44,8 @@ const HandleRole: React.FC<HandleRoleProps> = ({ handlechenge, value }) => {
     };
   }, []);
 
-  if (loading) return <div>Loading roles…</div>;
-  if (error) return <div>Error loading roles: {error}</div>;
+  if (loading) return <div className="text-text/40">Loading roles…</div>;
+  if (error) return <div className="text-text/40">Error loading roles: {error}</div>;
 
   return (
     <div>

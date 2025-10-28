@@ -38,21 +38,13 @@ const LogInPage = () => {
         res.success ? (
             toast.success(res.message),
             localStorage.setItem('token', res.token!),
+            localStorage.setItem('user', JSON.stringify(res.data)),
             redirect('/')
         ) :
          toast.error(res.message)
     };
 
-    // useEffect(() => {
-    //     const getMe = async () => {
-    //         const session = await GetMe()
-    //         if (session) {
-    //             redirect('/')
-    //         }
-    //     }
-    //     getMe()
-
-    // }, [])
+ 
 
     return (
         <div className='max-w-6xl mx-auto p-4 min-h-screen flex justify-center items-center'>

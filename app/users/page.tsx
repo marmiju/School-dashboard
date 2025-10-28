@@ -11,7 +11,7 @@ const page = async () => {
 
   return (
 
-    <div className='p-2 '>
+    <div className='p-2 max-h-screen overflow-auto'>
             {/* userBar  */}
             <div className="p-4 border-b text-text">
                 <h1 className="text-xl text-primary font-bold">Users</h1>

@@ -1,4 +1,4 @@
-const getUserById = async (userId: string) => {
+export const getUserById = async (userId: number) => {
     try {
         const res = await fetch(`${process.env.URL}/getUser/${userId}`, {})
         if (!res.ok) {

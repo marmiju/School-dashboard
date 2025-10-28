@@ -19,7 +19,7 @@ export default function RootLayout({ children,}: Readonly<{children: React.React
       <body
         className={`${montserrat.className} `}
       >
-       {logreg.includes(path) ? children : <div className="grid grid-cols-12"><Header/><Sidebar/><div className="col-span-12 lg:col-span-10 mt-15 lg:mt-0">{children}</div></div>}
+       {logreg.includes(path) ? children : <div className="grid grid-cols-12"><Sidebar/><div className="col-span-12 md:col-span-10 max-h-screen mt-10 md:mt-0">{children}</div></div>}
       </body>
     </html>
   );

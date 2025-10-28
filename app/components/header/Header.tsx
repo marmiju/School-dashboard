@@ -17,12 +17,8 @@ const Header = () => {
     redirect('/login');
   }
 
-
-
-
-
   return (
-    <div className="flex col-span-12 bg-secondary">
+    <div className="flex col-span-10 h-20 bg-secondary">
       <ToastContainer />
       <div className="flex w-full max-w-[98%] mx-auto justify-between items-center p-1 md:px-2 lg:px-4">
         <div className="flex gap-4 h-[80px]">
@@ -42,7 +38,6 @@ const Header = () => {
             </h3>
           </div>
         </div>
-        <LogOutButton />
       </div>
     </div>
   );

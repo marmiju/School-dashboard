@@ -1,5 +1,6 @@
 import { userType } from "@/app/components/AddUser/AddUser";
-import { baseUrl } from "../auth/getMe";
+
+
 
 export const CreateUser = async (userData: userType, token: string) => {
     const formData = new FormData();
@@ -16,9 +17,7 @@ export const CreateUser = async (userData: userType, token: string) => {
         }
     }
 
-
-
-    const response = await fetch(`${baseUrl}/api/createUser`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/createUser`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -27,4 +26,8 @@ export const CreateUser = async (userData: userType, token: string) => {
     })
     const result = await response.json();
     return result;
+
+
+
+
 };

@@ -5,8 +5,9 @@ import avatar from '@/public/avatar.png'
 import Image from 'next/image'
 import { ImageInput } from '../fileInput/ImageInput'
 import HandleRole from '../handleRole/HandleRole'
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import { CreateUser } from '@/lib/function/users/Createuser'
+import { redirect } from 'next/navigation'
 
 export interface userType {
   name: string,
@@ -92,8 +93,11 @@ const SubmitData = async (e: React.FormEvent<HTMLFormElement>) => {
     const res = await CreateUser(userdata,token!);
     if (res.success) {
       toast.success("User created successfully!");
+      setInterval(() => {
+        redirect('/users')
+      }, 2000);
     } else {
-      toast.error(res.message);
+      toast.error(res.message)
     }
 
   } catch (err) {
@@ -112,6 +116,7 @@ const SubmitData = async (e: React.FormEvent<HTMLFormElement>) => {
 
   return (
     <form onSubmit={SubmitData} className="p-4 flex flex-wrap gap-2">
+      <ToastContainer/>
       {/* update section */}
       <div className='flex justify-end   w-full '>
         <button

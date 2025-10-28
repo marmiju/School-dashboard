@@ -14,7 +14,6 @@ const UserLiist = ({ users }: props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState<UserInterface |null >(null);
 
-  
 
     const handleView = async(userid:number) => {
         // open modal and fetch user details by id
@@ -28,11 +27,11 @@ const UserLiist = ({ users }: props) => {
     return (
         <Suspense fallback={<div>Wait Jsut A Time...</div>}>
             {isOpen && <UserViewModal onchenge={handleView} user={user} />}
-            <div className='overflow-auto max-h-[522px] '>
+            <div className='overflow-auto'>
                 <table className="w-full  border-collapse  space-y-2">
                     <thead className="">
                         <tr className="bg-secondary font-semibold text-sm text-primary">
-                            <th className="  ">serial</th>
+                            <th className="  ">Id</th>
                             <th className="  ">Name</th>
                             <th className=" ">Email</th>
                             <th className=" ">Phone</th>
@@ -44,7 +43,7 @@ const UserLiist = ({ users }: props) => {
                         {users.map((user,index) => (
                             <tr key={user.id} className="text-center bg-secondary border border-background text-text/70  transition-all duration-300">
                                 
-                                <td className=" p-1 truncate sm:whitespace-normal ">{index+1}</td>
+                                <td className=" p-1 truncate sm:whitespace-normal ">{user.id}</td>
                                 <td className=" p-1 truncate sm:whitespace-normal ">{user.name}</td>
                                 <td className=" p-1  overflow-ellipsis truncate sm:whitespace-normal">{user.email}</td>
                                 <td className=" p-1  overflow-ellipsis truncate sm:whitespace-normal">{user.phone}</td>
