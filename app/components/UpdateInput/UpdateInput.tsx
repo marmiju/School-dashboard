@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { ImageInput } from '../fileInput/ImageInput'
 import { Button } from '../btn/Button/Button'
 import { MdOutlineUpdate } from 'react-icons/md'
-import { baseUrl } from '@/lib/function/auth/getMe'
 import { UserInterface } from '@/lib/interface/UserWithdetails'
 
 
@@ -56,11 +55,7 @@ const UpdateUser = ({ userDataProps }: { userDataProps: UserInterface }) => {
           <Image
             className="w-full h-64 object-cover rounded-2xl p-2 border border-gray-300"
             src={
-              preview
-                ? preview.startsWith("pre")
-                 ? preview.slice(3)
-                 : `${baseUrl}/` + preview
-                : avatar 
+              preview ? preview :avatar 
             }
             alt="profile photo"
             width={300}
@@ -76,7 +71,7 @@ const UpdateUser = ({ userDataProps }: { userDataProps: UserInterface }) => {
             label="নামঃ "
             name="name"
             onChenge={handleOnChange}
-            value={userdata.name}
+            value={userdata.name!}
             placeholder="N/A"
             type="text"
           />
@@ -85,7 +80,7 @@ const UpdateUser = ({ userDataProps }: { userDataProps: UserInterface }) => {
               label="ই-মেইলঃ "
               name="email"
               onChenge={handleOnChange}
-              value={userdata.email}
+              value={userdata.email!}
               placeholder="N/A"
               type="email"
             />

@@ -1,8 +1,7 @@
-import { baseUrl } from "./getMe";
 
 export const Register = async ({ data }: { data: { username: string, email: string; password: string } }) => {
     try {
-        const res = await fetch(`${baseUrl}/api/register`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
