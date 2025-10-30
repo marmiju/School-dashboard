@@ -109,11 +109,6 @@ const SubmitData = async (e: React.FormEvent<HTMLFormElement>) => {
 };
 
 
-
-
-
-
-
   return (
     <form onSubmit={SubmitData} className="p-4 flex flex-wrap gap-2">
       <ToastContainer/>

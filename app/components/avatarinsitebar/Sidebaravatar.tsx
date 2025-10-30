@@ -1,9 +1,10 @@
 'use client'
+import { LogOut } from '@/lib/function/auth/LogOut'
 import Image from 'next/image'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { BiArrowFromRight } from 'react-icons/bi'
-import { PiArrowElbowLeft } from 'react-icons/pi'
+
 interface User {
     id: number,
     name: string,
@@ -15,6 +16,15 @@ interface User {
 const SidebarAvatar = () => {
     const [user, setuser] = useState<User | null>(null)
     const [isOpen, setIsOpen] = useState(false)
+    const [token, setToken] = useState(localStorage.getItem('token'))
+
+    useEffect(()=>{
+        const tok =  localStorage.getItem('token')
+        setToken(tok)
+        if (!token){
+            return redirect('/login')
+        }
+    },[token])
 
     useEffect(() => {
         const data = localStorage.getItem('user')
@@ -43,7 +53,7 @@ const SidebarAvatar = () => {
             </div>
             <div className={`${isOpen ? 'block' : 'hidden'} border fixed  min-w-40 gap-1 bottom-10  left-10 border-text/20 flex flex-col px-2 py-2 text-text/80 rounded-xl backdrop-blur-sm`}>
                 <Link className='border-white/20 border rounded-sm px-2 hover:bg-slate-900 ' href={'/profile'}>Profile</Link>
-                <Link className='border-white/20 border rounded-sm px-2 hover:bg-slate-900' href={'/dashboard'}>Logout</Link>
+                <button onClick={LogOut} className='border-white/20 border rounded-sm px-2 hover:bg-slate-900' >Logout</button>
             </div>
 
         </button>
