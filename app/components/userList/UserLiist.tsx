@@ -7,6 +7,7 @@ import { Suspense, useState } from 'react'
 import UserViewModal from '../modal/UserViewModal'
 import { toast, ToastContainer } from 'react-toastify'
 import UserDelModal from '../modal/UserdelModal'
+import EditUserModal from '../modal/UpdateUserModal'
 
 interface Props {
     users: UserInterface[]
@@ -15,8 +16,10 @@ interface Props {
 const UserLiist = ({ users }: Props) => {
     const [isOpen, setIsOpen] = useState(false)
     const [isOpendel, setIsOpendel] = useState(false)
+    const [isOpenEdit, setisOpenEdit] = useState(false)
     const [user, setUser] = useState<UserInterface | null>(null)
     const [delUserId, setDelUserId] = useState<number | null>(null)
+    const [editUserId, setEditUserId] = useState<number | null>(null)
 
     // Open view modal
     const handleView = (userid: number) => {
@@ -31,15 +34,32 @@ const UserLiist = ({ users }: Props) => {
         setIsOpendel(true)
     }
 
+    const handleEditClose = () => {
+        setisOpenEdit(false);
+        setUser(null);
+    }
+
+
     // Close delete modal
     const handleDelClose = () => {
         setIsOpendel(false)
         setDelUserId(null)
+
+    }
+    const handleisOpenEdit = (userid: number) => {
+        const usr = users.find(u => u.id === userid)
+        setUser(usr || null)
+        setisOpenEdit(true)
     }
 
     return (
         <Suspense fallback={<div>Wait Just A Time...</div>}>
             <ToastContainer />
+            {isOpenEdit && <EditUserModal user={user} closehandler={handleEditClose} />}
+
+            {isOpendel && delUserId && (
+                <UserDelModal id={delUserId} onchenge={handleDelClose} />
+            )}
             {isOpendel && delUserId && (
                 <UserDelModal id={delUserId} onchenge={handleDelClose} />
             )}
@@ -59,7 +79,8 @@ const UserLiist = ({ users }: Props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user) => (
+                        {users.map((user, index) => (
+
                             <tr key={user.id} className="text-center bg-secondary border border-background text-text/70 transition-all duration-300">
                                 <td className="p-1 truncate sm:whitespace-normal">{user.id}</td>
                                 <td className="p-1 truncate sm:whitespace-normal">{user.name}</td>
@@ -68,9 +89,11 @@ const UserLiist = ({ users }: Props) => {
                                 <td className="p-1 overflow-ellipsis truncate sm:whitespace-normal">{user.role}</td>
                                 <td className="gap-2 space-x-4">
                                     <button onClick={() => handleView(user.id!)} className='cursor-pointer text-text'><GrView /></button>
-                                    <button className='cursor-pointer text-yellow-200'><FaEdit /></button>
+                                    <button onClick={() => handleisOpenEdit(user.id!)} className='cursor-pointer text-yellow-200'><FaEdit /></button>
+
                                     <button onClick={() => handleDelModal(user.id!)} className='cursor-pointer text-red-200'><IoTrashBin /></button>
                                 </td>
+
                             </tr>
                         ))}
                     </tbody>

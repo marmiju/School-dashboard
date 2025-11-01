@@ -7,12 +7,14 @@ import { ImageInput } from '../fileInput/ImageInput'
 import { Button } from '../btn/Button/Button'
 import { MdOutlineUpdate } from 'react-icons/md'
 import { UserInterface } from '@/lib/interface/UserWithdetails'
+import HandleRole from '../handleRole/HandleRole'
 
 
-const UpdateUser = ({ userDataProps }: { userDataProps: UserInterface }) => {
-  const [userdata, setUserdata] = useState<UserInterface>(userDataProps)
+const UpdateUser = ({ user }: { user: UserInterface }) => {
+  const [userdata, setUserdata] = useState<UserInterface>(user)
   const [isLoading, setisloading] = useState<boolean>(false)
-  const [preview, setPreview] = useState<string | null>( userdata.profile_picture ? userdata.profile_picture : null);
+  const [roleId, setRoleId] = useState<number>(0)
+  const [preview, setPreview] = useState<string | null>(userdata.profile_picture ? userdata.profile_picture : null);
 
   // Handle text field change
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,8 +28,8 @@ const UpdateUser = ({ userDataProps }: { userDataProps: UserInterface }) => {
   const handleImageChange = (file: File | null) => {
     if (file) {
       const fileURL = URL.createObjectURL(file);
-      setPreview("pre"+fileURL);
-      console.log(typeof(fileURL), fileURL);
+      setPreview(fileURL);
+      console.log(typeof (fileURL), fileURL);
       setUserdata((prev) => ({
         ...prev,
         profile_image: file
@@ -36,26 +38,30 @@ const UpdateUser = ({ userDataProps }: { userDataProps: UserInterface }) => {
     }
   };
 
+  const handleRoleId = (id: number) => {
+    setRoleId(id)
+  }
 
-  
+
+
 
   return (
     <div className="p-4 flex flex-wrap gap-2">
       {/* update section */}
       <div className='flex justify-between items-center w-full '>
         <h3>Update Data:{userdata.id}</h3>
-        <Button text={isLoading ? "not to submit" : "Submit Now"} icon={<MdOutlineUpdate />} onClick={isLoading ? () => { } : ()=>{}} custom_css={isLoading ? 'bg-gray-400 cursor-not-allowed' : ''} />
+        <Button text={isLoading ? "not to submit" : "Submit Now"} icon={<MdOutlineUpdate />} onClick={isLoading ? () => { } : () => { }} custom_css={isLoading ? 'bg-gray-400 cursor-not-allowed' : ''} />
       </div>
 
 
       {/* Primary Info */}
-      <div className="w-full flex flex-wrap gap-2 bg-white p-2 rounded-2xl">
+      <div className="w-full flex flex-wrap gap-2 bg-secondary p-2 rounded-2xl">
         {/* Avatar */}
         <div className="w-[100%] md:w-[30%] space-y-2">
           <Image
             className="w-full h-64 object-cover rounded-2xl p-2 border border-gray-300"
             src={
-              preview ? preview :avatar 
+              preview ? preview : avatar
             }
             alt="profile photo"
             width={300}
@@ -92,7 +98,16 @@ const UpdateUser = ({ userDataProps }: { userDataProps: UserInterface }) => {
               placeholder="N/A"
               type="number"
             />
+            <InputBox
+              label="পাসওয়ার্ডঃ "
+              name="password"
+              onChenge={handleOnChange}
+              value={userdata.password!}
+              placeholder="N/A"
+              type="text"
+            />
           </div>
+
 
           <div className='grid grid-cols-3 gap-2'>
             <InputBox label='শিক্ষাগত যোগ্যতা' name='class_name' onChenge={handleOnChange} value={userdata.education!} placeholder='N/A' type='text' />
@@ -138,13 +153,7 @@ const UpdateUser = ({ userDataProps }: { userDataProps: UserInterface }) => {
           placeholder="N/A"
         />
 
-        <InputBox
-          label="ভূমিকা"
-          name="role"
-          onChenge={handleOnChange}
-          value={userdata.role || ""}
-          placeholder="N/A"
-        />
+        <HandleRole value={roleId} handlechenge={(e) => handleRoleId(Number(e.target.value))} />
 
         <InputBox
           label="যোগদানের তারিখঃ"
