@@ -42,7 +42,7 @@ const SidebarAvatar = () => {
     }, [])
 
     return (
-        <button onClick={() => setIsOpen(!!!isOpen)} className='absolute bottom-0 left-0 right-0'>
+        <button onClick={() => setIsOpen(!!!isOpen)} className='absolute bottom-0 left-0 right-0 border border-red-500'>
             <div className='flex  border border-primary/20 items-center  rounded-sm m-1 px-2 absolute right-0 left-0  bottom-0 gap-2 overflow-ellipsis'>
                 <Image className='object-cover w-6 h-6 rounded' src={user?.profile_picture || 'https://avatars.githubusercontent.com/u/190490261?v=4'} alt='profile_photo' width={50} height={50} />
                 <div className='text-text/90'>

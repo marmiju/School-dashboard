@@ -26,10 +26,8 @@ const HandleRole: React.FC<HandleRoleProps> = ({ handlechenge, value }) => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/roles`);
         console.log("mang",res)
-        alert(res)
         if (!res.ok) throw new Error(`Fetch failed: ${JSON.stringify(res)}`);
         const data = await res.json();
-
         if (mounted) setRoles(data.data);
       } catch (err: any) {
         console.error(err);
